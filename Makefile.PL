@@ -2,7 +2,8 @@ use inc::Module::Install;
 name 'Sid';
 all_from 'lib/Sid.pm';
 
-# requires '';
+requires 'Cwd';
+requires 'Path::Class';
 
 tests 't/*.t';
 author_tests 'xt';
