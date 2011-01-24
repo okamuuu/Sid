@@ -22,7 +22,7 @@ sub metadata_from {
 
     return {
         title       => $title,
-        keywords    => [@keywords],
+        keywords_ref    => [@keywords],
         description => $description,
     };
 }
