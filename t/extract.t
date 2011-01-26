@@ -22,9 +22,9 @@ subtest 'extract' => sub {
     my $metadata = Sid::Extract->metadata_from($xhtml);
     is_deeply $metadata,
       {
-        title       => 'test',
-        keywords    => [ 'em', 'emphasis', 'one em' ],
-        description => 'this is description',
+        title        => 'test',
+        keywords_ref => [ 'em', 'emphasis', 'one em' ],
+        description  => 'this is description',
       };
 };
 

@@ -40,6 +40,8 @@ sub new {
     }, $class;
 }
 
+sub  {}
+
 sub doc2htmls {
     my $self = shift;
 
