@@ -1,0 +1,98 @@
+<!DOCTYPE html> 
+<html lang="ja" manifest="cache.manifest"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title>Automatic Escaping for Special Characters | Markdown-Syntax</title> 
+    <meta name="Description" content="Markdown is intended to be as easy-to-read and easy-to-write as is feasible."> 
+    <meta name="Keywords" content="emphasis"> 
+    <meta name="author" content="cool guy"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+    <meta name="format-detection" content="telephone=no"> 
+    <meta name="apple-mobile-web-app-capable" content="yes"> 
+    <meta name="apple-mobile-web-app-status-bar-style" content="default"> 
+    <link rel="start" href="/" title="ホーム"> 
+    <link rel="apple-touch-icon" href="apple-touch-icon.png"> 
+    <link rel="stylesheet" href="css/iphone.css" media="screen"> 
+</head> 
+<body> 
+ 
+<header> 
+    <hgroup> 
+        <h1><a href="/">Markdown-Syntax</a></h1> 
+        <h2>Automatic Escaping for Special Characters</h2> 
+    </hgroup> 
+</header> 
+ 
+<div id="content">
+<h1>Automatic Escaping for Special Characters</h1>
+
+<p>In HTML, there are two characters that demand special treatment: &lt; and &amp;. Left angle brackets are used to start tags; ampersands are used to denote HTML entities. If you want to use them as literal characters, you must escape them as entities, e.g. &lt;, and &amp;.</p>
+
+<p>Ampersands in particular are bedeviling for web writers. If you want to write about ‘AT&amp;T’, you need to write ‘AT&amp;T’. You even need to escape ampersands within URLs. Thus, if you want to link to:</p>
+
+<pre><code>http://images.google.com/images?num=30&amp;q=larry+bird
+</code></pre>
+
+<p>you need to encode the URL as:</p>
+
+<pre><code>http://images.google.com/images?num=30&amp;amp;q=larry+bird
+</code></pre>
+
+<p>in your anchor tag href attribute. Needless to say, this is easy to forget, and is probably the single most common source of HTML validation errors in otherwise well-marked-up web sites.</p>
+
+<p>Markdown allows you to use these characters naturally, taking care of all the necessary escaping for you. If you use an ampersand as part of an HTML entity, it remains unchanged; otherwise it will be translated into &amp;.</p>
+
+<p>So, if you want to include a copyright symbol in your article, you can write:</p>
+
+<pre><code>&amp;copy;
+</code></pre>
+
+<p>and Markdown will leave it alone. But if you write:</p>
+
+<pre><code>AT&amp;T
+</code></pre>
+
+<p>Markdown will translate it to:</p>
+
+<pre><code>AT&amp;amp;T
+</code></pre>
+
+<p>Similarly, because Markdown supports inline HTML, if you use angle brackets as delimiters for HTML tags, Markdown will treat them as such. But if you write:</p>
+
+<pre><code>4 &lt; 5
+</code></pre>
+
+<p>Markdown will translate it to:</p>
+
+<pre><code>4 &amp;lt; 5
+</code></pre>
+
+<p>However, inside Markdown code spans and blocks, angle brackets and ampersands are always encoded automatically. This makes it easy to use Markdown to write about HTML code. (As opposed to raw HTML, which is a terrible format for writing about HTML syntax, because every single &lt; and &amp; in your example code needs to be escaped.)</p>
+ 
+<!--/#content--></div> 
+ 
+<footer> 
+    <nav> 
+        <ul> 
+            <li><a href="DUMMY">ログイン</a></li> 
+            <li><a href="DUMMY">ホーム</a></li> 
+            <li><a href="DUMMY">ヘルプ</a></li> 
+        </ul> 
+    </nav> 
+    <p class="copyright"><small>Copyright &copy; cool guy</small></p> 
+</footer> 
+ 
+<!-- Scripts [[[--> 
+<!-- common scripts [--> 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> 
+<script src="js/iphone.js"></script> 
+<noscript><p id="msgNoscript">当サイトは、ブラウザのJavaScript設定を有効にしてご覧ください。</p></noscript> 
+<!--] common scripts --> 
+<!--]]] Scripts--> 
+ 
+<!--Analytics [--> 
+<!--] Analytics--> 
+ 
+</body> 
+</html>
+

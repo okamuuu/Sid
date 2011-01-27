@@ -1,0 +1,82 @@
+<!DOCTYPE html> 
+<html lang="ja" manifest="cache.manifest"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title>Inline HTML | Markdown-Syntax</title> 
+    <meta name="Description" content="Markdown is intended to be as easy-to-read and easy-to-write as is feasible."> 
+    <meta name="Keywords" content="emphasis"> 
+    <meta name="author" content="cool guy"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+    <meta name="format-detection" content="telephone=no"> 
+    <meta name="apple-mobile-web-app-capable" content="yes"> 
+    <meta name="apple-mobile-web-app-status-bar-style" content="default"> 
+    <link rel="start" href="/" title="ホーム"> 
+    <link rel="apple-touch-icon" href="apple-touch-icon.png"> 
+    <link rel="stylesheet" href="css/iphone.css" media="screen"> 
+</head> 
+<body> 
+ 
+<header> 
+    <hgroup> 
+        <h1><a href="/">Markdown-Syntax</a></h1> 
+        <h2>Inline HTML</h2> 
+    </hgroup> 
+</header> 
+ 
+<div id="content">
+<h1>Inline HTML</h1>
+
+<p>Markdown’s syntax is intended for one purpose: to be used as a format for writing for the web.</p>
+
+<p>Markdown is not a replacement for HTML, or even close to it. Its syntax is very small, corresponding only to a very small subset of HTML tags. The idea is not to create a syntax that makes it easier to insert HTML tags. In my opinion, HTML tags are already easy to insert. The idea for Markdown is to make it easy to read, write, and edit prose. HTML is a publishing format; Markdown is a writing format. Thus, Markdown’s formatting syntax only addresses issues that can be conveyed in plain text.</p>
+
+<p>For any markup that is not covered by Markdown’s syntax, you simply use HTML itself. There’s no need to preface it or delimit it to indicate that you’re switching from Markdown to HTML; you just use the tags.</p>
+
+<p>The only restrictions are that block-level HTML elements — e.g. <div>, <table>, <pre>, <p>, etc. — must be separated from surrounding content by blank lines, and the start and end tags of the block should not be indented with tabs or spaces. Markdown is smart enough not to add extra (unwanted) <p> tags around HTML block-level tags.</p>
+
+<p>For example, to add an HTML table to a Markdown article:</p>
+
+<pre><code>This is a regular paragraph.
+
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Foo&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+
+This is another regular paragraph.
+</code></pre>
+
+<p>Note that Markdown formatting syntax is not processed within block-level HTML tags. E.g., you can’t use Markdown-style <em>emphasis</em> inside an HTML block.</p>
+
+<p>Span-level HTML tags — e.g. <span>, <cite>, or <del> — can be used anywhere in a Markdown paragraph, list item, or header. If you want, you can even use HTML tags instead of Markdown formatting; e.g. if you’d prefer to use HTML <a> or <img> tags instead of Markdown’s link or image syntax, go right ahead.</p>
+
+<p>Unlike block-level HTML tags, Markdown syntax is processed within span-level tags.</p>
+ 
+<!--/#content--></div> 
+ 
+<footer> 
+    <nav> 
+        <ul> 
+            <li><a href="DUMMY">ログイン</a></li> 
+            <li><a href="DUMMY">ホーム</a></li> 
+            <li><a href="DUMMY">ヘルプ</a></li> 
+        </ul> 
+    </nav> 
+    <p class="copyright"><small>Copyright &copy; cool guy</small></p> 
+</footer> 
+ 
+<!-- Scripts [[[--> 
+<!-- common scripts [--> 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> 
+<script src="js/iphone.js"></script> 
+<noscript><p id="msgNoscript">当サイトは、ブラウザのJavaScript設定を有効にしてご覧ください。</p></noscript> 
+<!--] common scripts --> 
+<!--]]] Scripts--> 
+ 
+<!--Analytics [--> 
+<!--] Analytics--> 
+ 
+</body> 
+</html>
+

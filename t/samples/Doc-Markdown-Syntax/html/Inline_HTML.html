@@ -1,0 +1,82 @@
+<!DOCTYPE html> 
+<html lang="ja" manifest="cache.manifest"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title>Inline HTML | Markdown-Syntax</title> 
+    <meta name="Description" content="Markdown is intended to be as easy-to-read and easy-to-write as is feasible."> 
+    <meta name="Keywords" content="emphasis"> 
+    <meta name="author" content="cool guy"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+    <meta name="format-detection" content="telephone=no"> 
+    <meta name="apple-mobile-web-app-capable" content="yes"> 
+    <meta name="apple-mobile-web-app-status-bar-style" content="default"> 
+    <link rel="start" href="/" title="ホーム"> 
+    <link rel="apple-touch-icon" href="apple-touch-icon.png"> 
+    <link rel="stylesheet" href="css/iphone.css" media="screen"> 
+</head> 
+<body> 
+ 
+<header> 
+    <hgroup> 
+        <h1><a href="/">Markdown-Syntax</a></h1> 
+        <h2>Inline HTML</h2> 
+    </hgroup> 
+</header> 
+ 
+<div id="content">
+&lt;h1&gt;Inline HTML&lt;/h1&gt;
+
+&lt;p&gt;Markdown’s syntax is intended for one purpose: to be used as a format for writing for the web.&lt;/p&gt;
+
+&lt;p&gt;Markdown is not a replacement for HTML, or even close to it. Its syntax is very small, corresponding only to a very small subset of HTML tags. The idea is not to create a syntax that makes it easier to insert HTML tags. In my opinion, HTML tags are already easy to insert. The idea for Markdown is to make it easy to read, write, and edit prose. HTML is a publishing format; Markdown is a writing format. Thus, Markdown’s formatting syntax only addresses issues that can be conveyed in plain text.&lt;/p&gt;
+
+&lt;p&gt;For any markup that is not covered by Markdown’s syntax, you simply use HTML itself. There’s no need to preface it or delimit it to indicate that you’re switching from Markdown to HTML; you just use the tags.&lt;/p&gt;
+
+&lt;p&gt;The only restrictions are that block-level HTML elements — e.g. &lt;div&gt;, &lt;table&gt;, &lt;pre&gt;, &lt;p&gt;, etc. — must be separated from surrounding content by blank lines, and the start and end tags of the block should not be indented with tabs or spaces. Markdown is smart enough not to add extra (unwanted) &lt;p&gt; tags around HTML block-level tags.&lt;/p&gt;
+
+&lt;p&gt;For example, to add an HTML table to a Markdown article:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;This is a regular paragraph.
+
+&amp;lt;table&amp;gt;
+    &amp;lt;tr&amp;gt;
+        &amp;lt;td&amp;gt;Foo&amp;lt;/td&amp;gt;
+    &amp;lt;/tr&amp;gt;
+&amp;lt;/table&amp;gt;
+
+This is another regular paragraph.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that Markdown formatting syntax is not processed within block-level HTML tags. E.g., you can’t use Markdown-style &lt;em&gt;emphasis&lt;/em&gt; inside an HTML block.&lt;/p&gt;
+
+&lt;p&gt;Span-level HTML tags — e.g. &lt;span&gt;, &lt;cite&gt;, or &lt;del&gt; — can be used anywhere in a Markdown paragraph, list item, or header. If you want, you can even use HTML tags instead of Markdown formatting; e.g. if you’d prefer to use HTML &lt;a&gt; or &lt;img&gt; tags instead of Markdown’s link or image syntax, go right ahead.&lt;/p&gt;
+
+&lt;p&gt;Unlike block-level HTML tags, Markdown syntax is processed within span-level tags.&lt;/p&gt;
+ 
+<!--/#content--></div> 
+ 
+<footer> 
+    <nav> 
+        <ul> 
+            <li><a href="DUMMY">ログイン</a></li> 
+            <li><a href="DUMMY">ホーム</a></li> 
+            <li><a href="DUMMY">ヘルプ</a></li> 
+        </ul> 
+    </nav> 
+    <p class="copyright"><small>Copyright &copy; cool guy</small></p> 
+</footer> 
+ 
+<!-- Scripts [[[--> 
+<!-- common scripts [--> 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> 
+<script src="js/iphone.js"></script> 
+<noscript><p id="msgNoscript">当サイトは、ブラウザのJavaScript設定を有効にしてご覧ください。</p></noscript> 
+<!--] common scripts --> 
+<!--]]] Scripts--> 
+ 
+<!--Analytics [--> 
+<!--] Analytics--> 
+ 
+</body> 
+</html>
+

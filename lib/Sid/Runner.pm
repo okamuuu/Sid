@@ -9,7 +9,8 @@ use Sid::Plugin::Parser::Markdown;
 use Sid::Plugin::View::TX;
 use Cwd ();
 use Path::Class ();
-use Class::Accessor::Lite 0.05 ( ro => [qw/name author version doc_dir html_dir parser/]);
+use Class::Accessor::Lite 0.05 (
+    ro => [qw/name author version doc_dir html_dir template parser view/] );
 
 sub new {
     my ($class, %args) = @_;
@@ -23,38 +24,43 @@ sub new {
 
     my $doc_dir  = Path::Class::Dir->new( Cwd::cwd(), $doc );
     my $html_dir = Path::Class::Dir->new( Cwd::cwd(), $html );
-
-    my $parser = Sid::Plugin::Parser::Markdown->new; 
-    
     my $template_file = Path::Class::File->new( Cwd::cwd, $template );
-    my $view = Sid::Plugin::View::TX->new( template => $template_file->stringify );
+    
+    my $view = Sid::Plugin::View::TX->new(template_file=>$template_file);
+    my $parser = Sid::Plugin::Parser::Markdown->new;
 
     return bless {
-        name         => $name,
-        author       => $author,
-        version      => $version,
-        doc_dir      => $doc_dir,
-        html_dir     => $html_dir,
-        parser       => $parser,
-        view         => $view,
+        name     => $name,
+        author   => $author,
+        version  => $version,
+        doc_dir  => $doc_dir,
+        html_dir => $html_dir,
+        view     => $view,
+        parser   => $parser,
     }, $class;
 }
 
-sub  {}
-
-sub doc2htmls {
+sub gen_htmls {
     my $self = shift;
 
     my $doc = $self->create_doc;
 
-    return map {
-        $self->view->render(
+    for my $archive ( map { $_->archives } $doc->categories ) {
+        my $html = $self->view->render(
             doc            => $doc,
-            categories_ref => [ $doc->categories ],
-            archive        => $_,
-          )
-      }
-      map { $_->archives } $doc->categories;
+            categories_ref => $doc->categories_ref,
+            archive        => $archive,
+        );
+        
+        $self->gen_file( $archive->basename, \$html );
+    }
+}
+
+sub gen_file {
+    my ( $self, $basename, $html_ref ) = @_;
+
+    my $encoded_html = Encode::encode_utf8($$html_ref);
+    Path::Class::File->new( $self->html_dir->stringify, $basename )->openw->print($encoded_html); 
 }
 
 sub create_doc {
@@ -91,7 +97,7 @@ sub create_category {
 sub create_archive {
     my ( $self, $file ) = @_;
 
-    $file->basename =~ m/^(\d+)\-(.*)/ or return;
+    $file->basename =~ m/^(\d+)\-(.*)\.txt/ or return;
 
     my ( $id, $name ) = ( $1, $2 );
 
@@ -101,6 +107,7 @@ sub create_archive {
 
     return Sid::Model::Archive->new(
         id           => $id,
+        cid          => 'hoge', 
         name         => $name,
         title        => $metadata->{title},
         keywords_ref => $metadata->{keywords_ref},

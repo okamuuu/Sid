@@ -1,0 +1,54 @@
+<!DOCTYPE html> 
+<html lang="ja" manifest="cache.manifest"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title><: $archive.title :> | <: $doc.name :></title> 
+    <meta name="Description" content="<: $archive.description :>"> 
+    <meta name="Keywords" content="<: $archive.joined_keywords :>"> 
+    <meta name="author" content="<: $doc.author :>"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+    <meta name="format-detection" content="telephone=no"> 
+    <meta name="apple-mobile-web-app-capable" content="yes"> 
+    <meta name="apple-mobile-web-app-status-bar-style" content="default"> 
+    <link rel="start" href="/" title="ホーム"> 
+    <link rel="apple-touch-icon" href="apple-touch-icon.png"> 
+    <link rel="stylesheet" href="css/iphone.css" media="screen"> 
+</head> 
+<body> 
+ 
+<header> 
+    <hgroup> 
+        <h1><a href="/"><: $doc.name :></a></h1> 
+        <h2><: $archive.title :></h2> 
+    </hgroup> 
+</header> 
+ 
+<div id="content">
+<: html_unescape($archive.content) :> 
+<!--/#content--></div> 
+ 
+<footer> 
+    <nav> 
+        <ul> 
+            <li><a href="DUMMY">ログイン</a></li> 
+            <li><a href="DUMMY">ホーム</a></li> 
+            <li><a href="DUMMY">ヘルプ</a></li> 
+        </ul> 
+    </nav> 
+    <p class="copyright"><small>Copyright &copy; <: $doc.author :></small></p> 
+</footer> 
+ 
+<!-- Scripts [[[--> 
+<!-- common scripts [--> 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> 
+<script src="js/iphone.js"></script> 
+<noscript><p id="msgNoscript">当サイトは、ブラウザのJavaScript設定を有効にしてご覧ください。</p></noscript> 
+<!--] common scripts --> 
+<!--]]] Scripts--> 
+ 
+<!--Analytics [--> 
+<!--] Analytics--> 
+ 
+</body> 
+</html>
+

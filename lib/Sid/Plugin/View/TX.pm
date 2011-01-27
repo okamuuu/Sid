@@ -7,10 +7,19 @@ use Text::Xslate ();
 sub new {
     my ( $class, %args ) = @_;
 
-    my $template = $args{template}
+    my $template_file = $args{template_file}
       or Carp::croak("missing mandatory parameter 'template_file'...");
 
-    return bless { tx => Text::Xslate->new, template => $template }, $class;
+    return bless {
+        tx => Text::Xslate->new(
+            function => {
+                html_unescape => sub {
+                    Text::Xslate::mark_raw(shift);
+                },
+            },
+        ),
+        template => $template_file->relative
+    }, $class;
 }
 
 sub render {
