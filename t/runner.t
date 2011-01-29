@@ -10,6 +10,7 @@ subtest 'samples Doc-Markdown-Syntax' => sub {
 
     my $runner = Sid::Runner->new(
         name          => 'Markdown-Syntax',
+        index_file    => 't/samples/Doc-Markdown-Syntax/Readme.md',
         doc_dir       => 't/samples/Doc-Markdown-Syntax/doc',
         html_dir      => 't/samples/Doc-Markdown-Syntax/html',
         template_file => Path::Class::File->new('t/samples/Doc-Markdown-Syntax/template/layout.tx'),
@@ -25,8 +26,8 @@ subtest 'samples Doc-Markdown-Syntax' => sub {
         isa_ok( $_, "Sid::Model::Category" ) for $doc->categories;
     };
 
-    subtest 'gen_htmls' => sub {
-        $runner->gen_htmls;     
+    subtest 'run' => sub {
+        $runner->run;     
         pass();
     };
 

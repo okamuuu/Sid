@@ -24,8 +24,8 @@ sub new {
 
     my $doc_dir  = Path::Class::Dir->new( Cwd::cwd(), $doc );
     my $html_dir = Path::Class::Dir->new( Cwd::cwd(), $html );
-    my $template_file = Path::Class::File->new( Cwd::cwd, $template );
-    
+    my $template_file = Path::Class::File->new( Cwd::cwd(), $template );
+
     my $view = Sid::Plugin::View::TX->new(template_file=>$template_file);
     my $parser = Sid::Plugin::Parser::Markdown->new;
 
@@ -40,94 +40,95 @@ sub new {
     }, $class;
 }
 
-sub gen_htmls {
+sub rmtree_category_dirs {
+    $_->rmtree
+      for grep { $_->basename =~ m/^\d+\-/ } $_[0]->html_dir->children;
+}
+
+sub mkpath_category_dirs {
+    $_->mkpath
+      for map { $_[0]->html_dir->subdir( $_->basename ) }
+      grep { $_->basename =~ m/^\d+\-/ } $_[0]->doc_dir->children;
+}
+
+sub run {
     my $self = shift;
+
+    $self->rmtree_category_dirs;
+    $self->mkpath_category_dirs;
 
     my $doc = $self->create_doc;
 
     for my $archive ( map { $_->archives } $doc->categories ) {
+
         my $html = $self->view->render(
             doc            => $doc,
             categories_ref => $doc->categories_ref,
             archive        => $archive,
         );
-        
-        $self->gen_file( $archive->basename, \$html );
+
+        my $encoded_html = Encode::encode_utf8($html);
+        $archive->file->openw->print($encoded_html);
     }
-}
-
-sub gen_file {
-    my ( $self, $basename, $html_ref ) = @_;
-
-    my $encoded_html = Encode::encode_utf8($$html_ref);
-    Path::Class::File->new( $self->html_dir->stringify, $basename )->openw->print($encoded_html); 
 }
 
 sub create_doc {
     my $self = shift;
 
-    my @categories =
-      map { $self->create_category($_) } $self->_get_category_dirs();
+    my $categories_ref = [
+        map    { $self->create_category($_) }
+          sort { $a cmp $b }
+          grep { $_->is_dir and $_->basename =~ m/^\d+\-/ }
+          $self->doc_dir->children
+    ];
 
     return Sid::Model::Doc->new(
         name           => $self->name,
         author         => $self->author,
         version        => $self->version,
-        categories_ref => [@categories],
+        categories_ref => $categories_ref,
     );
 }
 
 sub create_category {
     my ( $self, $dir ) = @_;
 
-    $dir->basename =~ m/^(\d+)\-(.*)/ or return;
-
-    my ( $id, $name ) = ( $1, $2 );
-
-    my @archives =
-      map { $self->create_archive($_) } _get_archive_files_in($dir);
+    $dir->basename =~ m/^\d+\-(.*)/ or return;
+    
+    my $archives_ref = [ map { $self->create_archive($_) }
+      sort { $a cmp $b }
+      grep { not $_->is_dir and $_->basename =~ m/^\d+\-/ } $dir->children ];
 
     return Sid::Model::Category->new(
-        id           => $id,
-        name         => $name,
-        archives_ref => [@archives],
+        name         => $dir->basename,
+        archives_ref => $archives_ref,
     );
 }
 
 sub create_archive {
     my ( $self, $file ) = @_;
 
-    $file->basename =~ m/^(\d+)\-(.*)\.txt/ or return;
-
-    my ( $id, $name ) = ( $1, $2 );
+    $file->basename =~ m/^(\d+\-.*)\.(?:txt|md|mkdn)/ or return;
+    my $name = $1;
 
     my $xhtml = $self->parser->parse( scalar $file->slurp );
 
     my $metadata = Sid::Extract->metadata_from($xhtml);
+   
+    my $renamed_file =
+      Path::Class::File->new( $self->html_dir, $file->parent->basename,
+        "$name.html" );
+    
+    $renamed_file->touch;
 
     return Sid::Model::Archive->new(
-        id           => $id,
-        cid          => 'hoge', 
-        name         => $name,
+        file         => $renamed_file,
         title        => $metadata->{title},
         keywords_ref => $metadata->{keywords_ref},
         description  => $metadata->{description},
         content      => $xhtml,
     );
 }
-
-sub _get_category_dirs {
-    return sort { $a cmp $b }
-      grep { $_->is_dir and $_->basename =~ m/^\d+\-/ }
-      $_[0]->doc_dir->children;
-}
-   
-sub _get_archive_files_in {
-    my $dir = shift;
-    sort { $a cmp $b }
-      grep { not $_->is_dir and $_->basename =~ m/^\d+\-/ }
-      $dir->children;
-}   
 
 1;
 
