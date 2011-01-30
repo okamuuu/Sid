@@ -12,6 +12,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default"> 
     <link rel="start" href="/" title="ホーム"> 
     <link rel="apple-touch-icon" href="apple-touch-icon.png"> 
+    <link rel="stylesheet" href="css/reset.css" media="screen"> 
     <link rel="stylesheet" href="css/iphone.css" media="screen"> 
 </head> 
 <body> 

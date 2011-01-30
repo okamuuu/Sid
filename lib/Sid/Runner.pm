@@ -40,35 +40,35 @@ sub new {
     }, $class;
 }
 
-sub rmtree_category_dirs {
-    $_->rmtree
-      for grep { $_->basename =~ m/^\d+\-/ } $_[0]->html_dir->children;
-}
-
-sub mkpath_category_dirs {
-    $_->mkpath
-      for map { $_[0]->html_dir->subdir( $_->basename ) }
-      grep { $_->basename =~ m/^\d+\-/ } $_[0]->doc_dir->children;
-}
-
 sub run {
     my $self = shift;
 
-    $self->rmtree_category_dirs;
-    $self->mkpath_category_dirs;
-
     my $doc = $self->create_doc;
 
-    for my $archive ( map { $_->archives } $doc->categories ) {
+    my $cnt=0;
+    for my $category ( $doc->categories ) {
 
-        my $html = $self->view->render(
-            doc            => $doc,
-            categories_ref => $doc->categories_ref,
-            archive        => $archive,
-        );
+        for my $archive ( map { $_->archives } $doc->categories ) {
+        
+            warn $archive->id;
+            warn $archive->name;
 
-        my $encoded_html = Encode::encode_utf8($html);
-        $archive->file->openw->print($encoded_html);
+            my $html = $self->view->render(
+                doc            => $doc,
+                categories_ref => $doc->categories_ref,
+                archive        => $archive,
+            );
+
+            my $encoded_html = Encode::encode_utf8($html);
+
+            my $name =
+              $cnt++ == 0
+              ? 'index.html'
+              : $category->id . "-" . $category->name . "-" . $archive->id . "-" . $archive->name . ".html";
+
+            Path::Class::File->new($self->html_dir, $name)->openw->print($encoded_html);
+            $cnt++;
+        }
     }
 }
 
@@ -93,14 +93,16 @@ sub create_doc {
 sub create_category {
     my ( $self, $dir ) = @_;
 
-    $dir->basename =~ m/^\d+\-(.*)/ or return;
-    
+    $dir->basename =~ m/^(\d+)\-(.*)/ or return;
+    my ( $id, $name ) = ($1, $2);  
+ 
     my $archives_ref = [ map { $self->create_archive($_) }
       sort { $a cmp $b }
       grep { not $_->is_dir and $_->basename =~ m/^\d+\-/ } $dir->children ];
 
     return Sid::Model::Category->new(
-        name         => $dir->basename,
+        id           => $id,
+        name         => $name,
         archives_ref => $archives_ref,
     );
 }
@@ -108,21 +110,16 @@ sub create_category {
 sub create_archive {
     my ( $self, $file ) = @_;
 
-    $file->basename =~ m/^(\d+\-.*)\.(?:txt|md|mkdn)/ or return;
-    my $name = $1;
+    $file->basename =~ m/^(\d+)\-(.*)\.txt/ or return;
+    my ( $id, $name ) = ($1, $2);  
 
     my $xhtml = $self->parser->parse( scalar $file->slurp );
 
     my $metadata = Sid::Extract->metadata_from($xhtml);
-   
-    my $renamed_file =
-      Path::Class::File->new( $self->html_dir, $file->parent->basename,
-        "$name.html" );
-    
-    $renamed_file->touch;
 
     return Sid::Model::Archive->new(
-        file         => $renamed_file,
+        id           => $id,
+        name         => $name,
         title        => $metadata->{title},
         keywords_ref => $metadata->{keywords_ref},
         description  => $metadata->{description},
