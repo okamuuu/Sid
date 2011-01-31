@@ -27,15 +27,19 @@
 <div id="content">
 <: html_unescape($archive.content) :> 
 <!--/#content--></div> 
+
+<div id="sidebar">
+: for $categories_ref -> $category {
+    <h4><: $category.name :></h4>
+    <ul>       
+:   for $categoy.archives_ref -> $archive {
+      <li><a href="#"><: $archive.title :></a></li>
+:   }
+    </ul>       
+: }
+</div>
  
 <footer> 
-    <nav> 
-        <ul> 
-            <li><a href="DUMMY">ログイン</a></li> 
-            <li><a href="DUMMY">ホーム</a></li> 
-            <li><a href="DUMMY">ヘルプ</a></li> 
-        </ul> 
-    </nav> 
     <p class="copyright"><small>Copyright &copy; <: $doc.author :></small></p> 
 </footer> 
  
