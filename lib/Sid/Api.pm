@@ -46,12 +46,16 @@ sub gen_html {
     for my $category ( $doc->categories ) {
 
         my $html = $self->view->render(
+            name     => $self->name,
+            author   => $self->author,
+            version  => $self->version,
             doc      => $doc,
             category => $category,
+        #    articles_ref => $category->articles_ref,
         );
 
         my $encoded_html = Encode::encode_utf8($html);
-        Path::Class::File->new( $self->html_dir, $category->name . ".html" )
+        Path::Class::File->new( $self->html_dir, $category->id . "-" . $category->name . ".html" )
           ->openw->print($encoded_html);
     }
 }

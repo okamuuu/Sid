@@ -12,6 +12,7 @@ sub new {
 
     return bless {
         tx => Text::Xslate->new(
+            syntax => 'Kolon',
             function => {
                 html_unescape => sub {
                     Text::Xslate::mark_raw(shift);

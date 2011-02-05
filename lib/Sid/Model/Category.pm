@@ -8,5 +8,9 @@ use Class::Accessor::Lite 0.05 (
 
 sub articles { @{ $_[0]->{articles_ref} } }
 
+sub joined_keywords { join ', ', map { $_->keywords } $_[0]->articles; }
+
+sub basename { $_[0]->id . "-" . $_[0]->name . ".html" }
+
 1;
 

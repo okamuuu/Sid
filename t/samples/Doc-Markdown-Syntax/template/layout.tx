@@ -2,58 +2,66 @@
 <html lang="ja" manifest="cache.manifest"> 
 <head> 
     <meta charset="UTF-8"> 
-    <title><: $archive.title :> | <: $doc.name :></title> 
-    <meta name="Description" content="<: $archive.description :>"> 
-    <meta name="Keywords" content="<: $archive.joined_keywords :>"> 
-    <meta name="author" content="<: $doc.author :>"> 
+    <title><: $category.name :> | <: $name :></title> 
+    <meta name="Description" content="<:# $category.description :>"> 
+    <meta name="Keywords" content="<: $category.joined_keywords :>"> 
+    <meta name="author" content="<: $author :>"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
-    <meta name="format-detection" content="telephone=no"> 
     <meta name="apple-mobile-web-app-capable" content="yes"> 
     <meta name="apple-mobile-web-app-status-bar-style" content="default"> 
-    <link rel="start" href="/" title="ホーム"> 
-    <link rel="apple-touch-icon" href="apple-touch-icon.png"> 
-    <link rel="stylesheet" href="css/reset.css" media="screen"> 
-    <link rel="stylesheet" href="css/iphone.css" media="screen"> 
+    <link rel="start" href="/" title="README"> 
+    <link rel="stylesheet" href="_/css/reset.css" media="screen"> 
+    <link rel="stylesheet" href="_/css/core.css" media="screen"> 
 </head> 
 <body> 
  
 <header> 
-    <hgroup> 
-        <h1><a href="/"><: $doc.name :></a></h1> 
-        <h2><: $archive.title :></h2> 
-    </hgroup> 
+    <div class="wrap">
+        <h1><a href="/"><: $name :></a></h1> 
+    </div>
 </header> 
+<nav id="tab">
+    <div class="wrap">
+        <ol>
+            <li><a href="index.html">README</a></li>
+: for $doc.categories_ref() -> $category {
+            <li><a href="<: $category.basename :>"><: $category.name :></a></li>
+: }
+        </ol>
+    </div>
+</nav>
  
 <div id="content">
-<: html_unescape($archive.content) :> 
-<!--/#content--></div> 
-
-<div id="sidebar">
-: for $categories_ref -> $category {
-    <h4><: $category.name :></h4>
-    <ul>       
-:   for $categoy.archives_ref -> $archive {
-      <li><a href="#"><: $archive.title :></a></li>
-:   }
-    </ul>       
+    <div class="wrap">
+        <nav>
+            <ul>
+: for $category.articles_ref() -> $article {
+                <li><a href="#<: $article.id :>"><: $article.heading :></a></li>
 : }
-</div>
- 
+            </ul>
+        </nav>
+: for $category.articles_ref() -> $article {
+        <article id=<: $article.id :>>
+            <: html_unescape($article.content) :> 
+        </article>
+: }
+</div> 
+
 <footer> 
+    <div class="wrap">
     <p class="copyright"><small>Copyright &copy; <: $doc.author :></small></p> 
+    </div>
 </footer> 
  
-<!-- Scripts [[[--> 
 <!-- common scripts [--> 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script> 
 <script src="js/iphone.js"></script> 
 <noscript><p id="msgNoscript">当サイトは、ブラウザのJavaScript設定を有効にしてご覧ください。</p></noscript> 
 <!--] common scripts --> 
-<!--]]] Scripts--> 
  
 <!--Analytics [--> 
 <!--] Analytics--> 
- 
+
 </body> 
 </html>
 
