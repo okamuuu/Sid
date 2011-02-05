@@ -50,12 +50,12 @@ sub gen_html {
             author   => $self->author,
             version  => $self->version,
             doc      => $doc,
+            current_cat_id => $category->id,
             category => $category,
-        #    articles_ref => $category->articles_ref,
         );
 
         my $encoded_html = Encode::encode_utf8($html);
-        Path::Class::File->new( $self->html_dir, $category->id . "-" . $category->name . ".html" )
+        Path::Class::File->new( $self->html_dir, $category->basename )
           ->openw->print($encoded_html);
     }
 }

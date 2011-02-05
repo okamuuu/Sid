@@ -17,10 +17,10 @@
  
 <header> 
     <div class="wrap">
-        <h1><a href="/"><: $name :></a></h1> 
+        <p id="title"><: $name :></p> 
     </div>
 </header> 
-<nav id="tab">
+<nav id="tab" class="mod">
     <div class="wrap">
         <ol>
             <li><a href="index.html">README</a></li>
@@ -41,7 +41,7 @@
             </ul>
         </nav>
 : for $category.articles_ref() -> $article {
-        <article id=<: $article.id :>>
+        <article id=<: $article.id :> class="shadowbox">
             <: html_unescape($article.content) :> 
         </article>
 : }

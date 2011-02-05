@@ -20,13 +20,22 @@ embed {max-width: 100%;}
 
 /*- LET'S GET STARTED!
 ----------------------------------------------------------------------*/
+.shadowbox {
+position: relative;
+display: block;
+background-color: white;
+-moz-box-shadow: 0px 0px 4px silver;
+-webkit-box-shadow: 0px 0px 4px silver;
+box-shadow: 0px 0px 4px silver;
+}
+
 abbr {
     cursor: help;
 }
 
 a {position: relative; color: #CCC; -webkit-transition: all 0.3s ease-in;}
 a:active {position: relative; top: 1px;}
-a:hover {color: yellow; -webkit-transition: all 0.3s ease-in;}
+a:hover { color: #000000; -webkit-transition: all 0.3s ease-in;}
 
 body {
     background: fixed -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(255,255,255)), color-stop(0.62, rgb(244,244,244)));
@@ -50,9 +59,9 @@ header {
 }
 
 header p#title {
-    margin: 0 0 18px 0; 
+    margin: 0 0 0 0; 
     font-weight: normal;
-    font: normal 32px Helvetica, "aurea-ultra-1", "aurea-ultra-2", georgia, times, serif;
+    font: normal 42px Helvetica, "aurea-ultra-1", "aurea-ultra-2", georgia, times, serif;
     background: none;
 }
 
@@ -62,26 +71,14 @@ header p#title a {
     text-decoration: none;
 }
 
-/* 
-header p#title a:before {content: "\2605\0020";}
-*/
-
 nav#tab {
     clear: both;
     text-align: right;
     color:#FFFFFF;
     margin: 0 0 30px 0;
     padding: 0 0 0 0;
-    background-color:rgba(255,255,255,1);
+    background-color: #FFFFFF; /*#332211;*/
     border-bottom: 1px solid #CCCCCC;
-}
-
-nav#tab:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
 }
 
 nav#tab ol li { float: left;  list-style: none; margin:0; padding:0; }
@@ -97,7 +94,7 @@ nav#tab ol li a:visited,
 nav#tab ol li a:hover {
     display:block;
     margin:0;
-    padding:15px 20px;
+    padding:15px 45px 15px 0;
 }
 
 nav#tab ol li a:hover { color: #000;}
@@ -107,15 +104,26 @@ nav#tab ol li a:before {content: "\2605\0020";}
 }
  
 #content article {
-    margin: 10px 0 60px 0;
+    margin: 30px 0 60px 0;
+    padding: 30px;
+}
+ 
+#content article h1 {
+    padding: 0 0 15px 0;
+    border-bottom: 1px solid #CCCCCC;
+}
+  
+#content article p {
+    margin: 0;
 }
  
 #content article pre {
-    margin: 10px 0;
-    padding: 10px;
+    margin: 15px 0;
+    padding: 15px;
     text-shadow: none;
 /*    background-color:rgba(255,255,255,0.1);   */
-    background-color:rgba(0,0,0,0.3);
+    border: 1px solid #CCCCCC;
+    background-color: #EEEEEE;
 }
  
 #content article pre code {
