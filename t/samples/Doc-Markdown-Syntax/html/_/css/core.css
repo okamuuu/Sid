@@ -89,6 +89,7 @@ nav#tab ol li a {
     text-decoration: none;
 }
 
+nav#tab ol li.current a,
 nav#tab ol li a:link, 
 nav#tab ol li a:visited, 
 nav#tab ol li a:hover {
@@ -97,6 +98,7 @@ nav#tab ol li a:hover {
     padding:15px 45px 15px 0;
 }
 
+nav#tab ol li.current a,
 nav#tab ol li a:hover { color: #000;}
 nav#tab ol li a:before {content: "\2605\0020";}
 
@@ -107,18 +109,31 @@ nav#tab ol li a:before {content: "\2605\0020";}
     margin: 30px 0 60px 0;
     padding: 30px;
 }
- 
+
+
 #content article h1 {
     padding: 0 0 15px 0;
     border-bottom: 1px solid #CCCCCC;
+    width: auto; 
+    margin-bottom: 30px; 
+    font-size: 38px; 
+    line-height: 38px;
 }
-  
-#content article p {
-    margin: 0;
+
+#content article h2 {
+    padding: 30px 0 15px 0;
+    border-bottom: 1px solid #CCCCCC;
+    width: auto; 
+    margin-bottom: 30px; 
+    font: normal 24px/24px "aurea-ultra-1","aurea-ultra-2", georgia, times, serif;
 }
  
+#content article p {
+    margin: 0 0 15px 0;
+}
+
 #content article pre {
-    margin: 15px 0;
+    margin: 0 0 30px 0;
     padding: 15px;
     text-shadow: none;
 /*    background-color:rgba(255,255,255,0.1);   */
@@ -130,35 +145,7 @@ nav#tab ol li a:before {content: "\2605\0020";}
 /*    background-color:rgba(255,255,255,0);   */
     background-color:rgba(0,0,0,0);
 }
-
-
-#content article h1 {
-    width: auto; 
-    margin-bottom: 24px; 
-    font-size: 38px; 
-    line-height: 38px;
-}
-
-#content article h2 {
-    margin-bottom: 12px; 
-    font: normal 24px/24px "aurea-ultra-1","aurea-ultra-2", georgia, times, serif;
-}
-    
-#content article p {
-    margin-bottom: 18px;
-}
-
-#content article ul {
-    margin: 0 0 18px 24px;
-}
-
-#content article ul.links {margin: 18px 0;}
-
-#content article ul.links li {margin: 0 0 6px 24px;}
-#content article ul.links li:before {content: "\2605\0020";}
-#content article ul.links li.noStar {margin-left: 44px; font-size: 14px; font-style: italic;}
-#content article ul.links li.noStar:before {content: "";}
-
+ 
 footer {
     text-align: center;
     width: 100%;

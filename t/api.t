@@ -9,7 +9,7 @@ subtest 'generate html' => sub {
 
     my $api = Sid::Api->new(
         name          => 'Markdown-Syntax',
-        readme        => 't/samples/Doc-Markdown-Syntax/doc/Readme.md',
+        readme        => 't/samples/Doc-Markdown-Syntax/Readme.md',
         doc_dir       => 't/samples/Doc-Markdown-Syntax/doc',
         html_dir      => 't/samples/Doc-Markdown-Syntax/html',
         template_file => 't/samples/Doc-Markdown-Syntax/template/layout.tx',

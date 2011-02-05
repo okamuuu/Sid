@@ -2,10 +2,10 @@
 <html lang="ja" manifest="cache.manifest"> 
 <head> 
     <meta charset="UTF-8"> 
-    <title><: $category.name :> | <: $name :></title> 
+    <title><: $category.name :> | <: $doc.name :></title> 
     <meta name="Description" content="<:# $category.description :>"> 
     <meta name="Keywords" content="<: $category.joined_keywords :>"> 
-    <meta name="author" content="<: $author :>"> 
+    <meta name="author" content="<: $doc.author :>"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
     <meta name="apple-mobile-web-app-capable" content="yes"> 
     <meta name="apple-mobile-web-app-status-bar-style" content="default"> 
@@ -13,19 +13,18 @@
     <link rel="stylesheet" href="_/css/reset.css" media="screen"> 
     <link rel="stylesheet" href="_/css/core.css" media="screen"> 
 </head> 
-<body> 
+<body id="cat<: $category.id :>"> 
  
 <header> 
     <div class="wrap">
-        <p id="title"><: $name :></p> 
+        <p id="title"><: $doc.name :></p> 
     </div>
 </header> 
 <nav id="tab" class="mod">
     <div class="wrap">
         <ol>
-            <li><a href="index.html">README</a></li>
 : for $doc.categories_ref() -> $category {
-            <li><a href="<: $category.basename :>"><: $category.name :></a></li>
+            <li class="<: $category.id == $current_cat_id ? 'current' : '' :>"><a href="<: $category.basename :>"><: $category.name :></a></li>
 : }
         </ol>
     </div>

@@ -27,19 +27,39 @@ sub set_parser {
 }
 
 sub create_doc {
-    my ($class, $dir) = @_;
+    my ($class, %args ) = @_;
+
+    my $name    = $args{name}    or Carp::croak();
+    my $author  = $args{author}  or Carp::croak();
+    my $version = $args{version} or Carp::croak();
+    my $doc_dir = $args{doc_dir} or Carp::croak();
+    my $readme  = $args{readme}  or Carp::croak();
 
     Carp::croak unless $PARSER;
 
     my $categories_ref = [
+        $class->_create_readme_as_category($readme),
         map    { $class->_create_category($_) }
           sort { $a cmp $b }
-          grep { $_->is_dir and $_->basename =~ m/^\d+\-/ }
-          $dir->children
+          grep { $_->is_dir and $_->basename =~ m/^\d+\-/ } $doc_dir->children
     ];
 
     return Sid::Model::Doc->new(
+        name           => $name,
+        author         => $author,
+        version        => $version,
         categories_ref => $categories_ref,
+    );
+
+}
+
+sub _create_readme_as_category {
+    my ( $class, $file ) = @_;
+
+    return Sid::Model::Category->new(
+        id           => 'readme',
+        name         => 'README',
+        articles_ref => [ $class->_create_article($file) ],
     );
 }
 
@@ -63,9 +83,18 @@ sub _create_category {
 sub _create_article {
     my ( $class, $file ) = @_; 
 
-    $file->basename =~ m/^(\d+)\-(.*)\.txt/ or return;
+    my $id;
 
-    my ( $id, $name ) = ($1, $2);  
+    ### XXX: readmeのファイル名が固定されている
+    if ( $file->basename =~ m/^Readme/ ) {
+        $id = 0;
+    }
+    elsif ( $file->basename =~ m/^(\d+)\-.*\.txt/ ) {
+        $id = $1;
+    }
+    else {
+        return;
+    }
 
     my $xhtml = $PARSER->parse( scalar $file->slurp );
 
@@ -80,7 +109,7 @@ sub _create_article {
           map { $_->as_text } $XPATH->findnodes('//em')->get_nodelist ];
 
     return Sid::Model::Article->new(
-        id           => $file->basename,
+        id           => $id,
         heading      => $heading,
         keywords_ref => $keywords_ref,
         content      => $xhtml,

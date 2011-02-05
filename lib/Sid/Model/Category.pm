@@ -10,7 +10,11 @@ sub articles { @{ $_[0]->{articles_ref} } }
 
 sub joined_keywords { join ', ', map { $_->keywords } $_[0]->articles; }
 
-sub basename { $_[0]->id . "-" . $_[0]->name . ".html" }
+sub basename {
+    return $_[0]->id eq 'readme'
+      ? 'index.html'
+      : $_[0]->id . "-" . $_[0]->name . ".html";
+}
 
 1;
 
