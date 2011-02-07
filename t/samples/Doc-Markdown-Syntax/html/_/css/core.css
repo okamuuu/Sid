@@ -172,3 +172,21 @@ footer img:hover {
     -webkit-transition: all 0.3s;
 }
 
+nav#pagenav ul
+{
+    margin: 0;
+    padding:5px;
+}
+
+nav#pagenav ul li
+{
+    display: block;
+    float: left;
+    position: relative;
+    overflow: hidden;
+    line-height: 21px;
+    margin: 0px 6px 0px 0;
+    padding: 0px 10px 0px 0;
+}
+
+

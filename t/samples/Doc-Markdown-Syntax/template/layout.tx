@@ -1,17 +1,17 @@
 <!DOCTYPE html> 
-<html lang="ja" manifest="cache.manifest"> 
+<!-- <html lang="ja" manifest="cache.manifest"> -->
 <head> 
     <meta charset="UTF-8"> 
     <title><: $category.name :> | <: $doc.name :></title> 
-    <meta name="Description" content="<:# $category.description :>"> 
-    <meta name="Keywords" content="<: $category.joined_keywords :>"> 
-    <meta name="author" content="<: $doc.author :>"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
-    <meta name="apple-mobile-web-app-capable" content="yes"> 
-    <meta name="apple-mobile-web-app-status-bar-style" content="default"> 
-    <link rel="start" href="/" title="README"> 
-    <link rel="stylesheet" href="_/css/reset.css" media="screen"> 
-    <link rel="stylesheet" href="_/css/core.css" media="screen"> 
+    <meta name="Description" content="<:# $category.description :>" /> 
+    <meta name="Keywords" content="<: $category.joined_keywords :>" /> 
+    <meta name="author" content="<: $doc.author :>" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
+    <meta name="apple-mobile-web-app-capable" content="yes" /> 
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" /> 
+    <link rel="start" href="/" title="README" /> 
+    <link rel="stylesheet" href="_/css/reset.css" media="screen" /> 
+    <link rel="stylesheet" href="_/css/core.css" media="screen" /> 
 </head> 
 <body id="cat<: $category.id :>"> 
  
@@ -29,21 +29,24 @@
         </ol>
     </div>
 </nav>
- 
+
+<nav id="pagenav">
+    <div class="wrap">
+        <ul>
+: for $category.articles_ref() -> $article {
+            <li><a href="#<: $article.id :>"><: $article.heading :></a></li>
+: }
+        </ul>
+    </div>
+</nav>
 <div id="content">
     <div class="wrap">
-        <nav>
-            <ul>
-: for $category.articles_ref() -> $article {
-                <li><a href="#<: $article.id :>"><: $article.heading :></a></li>
-: }
-            </ul>
-        </nav>
 : for $category.articles_ref() -> $article {
         <article id=<: $article.id :> class="shadowbox">
             <: html_unescape($article.content) :> 
         </article>
 : }
+    </div>
 </div> 
 
 <footer> 
@@ -54,8 +57,19 @@
  
 <!-- common scripts [--> 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script> 
-<script src="js/iphone.js"></script> 
 <noscript><p id="msgNoscript">当サイトは、ブラウザのJavaScript設定を有効にしてご覧ください。</p></noscript> 
+
+<script type="text/javascript">
+$(document).ready( function() {
+    $('#pagenav ul li a').click(function(){
+        console.log( $('#content .wrap').children() );
+        var articles = $('#content .wrap').children().hide(); 
+        var currentId = $(this).attr('href');
+        $(currentId).show();
+    }); 
+});
+</script>
+
 <!--] common scripts --> 
  
 <!--Analytics [--> 
