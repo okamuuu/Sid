@@ -30,22 +30,26 @@
     </div>
 </nav>
 
-<nav id="pagenav">
+<nav id="pagenav" class="mod">
     <div class="wrap">
         <ul>
 : for $category.articles_ref() -> $article {
-            <li><a href="#<: $article.id :>"><: $article.heading :></a></li>
+            <li class="controller"><: $article.heading :></li>
 : }
         </ul>
     </div>
 </nav>
 <div id="content">
     <div class="wrap">
+    <div id="slidesContainer">
 : for $category.articles_ref() -> $article {
-        <article id=<: $article.id :> class="shadowbox">
+        <div class="slide">
+        <article id="<: $article.id :>" class="shadowbox">
             <: html_unescape($article.content) :> 
         </article>
+        </div>
 : }
+    </div>
     </div>
 </div> 
 
@@ -58,18 +62,42 @@
 <!-- common scripts [--> 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script> 
 <noscript><p id="msgNoscript">当サイトは、ブラウザのJavaScript設定を有効にしてご覧ください。</p></noscript> 
-
 <script type="text/javascript">
-$(document).ready( function() {
-    $('#pagenav ul li a').click(function(){
-        console.log( $('#content .wrap').children() );
-        var articles = $('#content .wrap').children().hide(); 
-        var currentId = $(this).attr('href');
-        $(currentId).show();
-    }); 
+$(document).ready(function(){
+    var currentPosition = 0;
+    var slideWidth = 920;
+    var slides = $('.slide');
+    var numberOfSlides = slides.length;
+
+    $('#slidesContainer').css('overflow', 'hidden');
+
+    slides
+      .wrapAll('<div id="slideInner"></div>')
+      .css({
+        'float' : 'left',
+        'width' : slideWidth
+      });
+
+    $('#slideInner').css({
+        'width': slideWidth * numberOfSlides,
+    });
+
+    $('.controller').css({cursor: 'pointer'});
+    $('.controller').eq(0).css({color: '#333333'});
+    
+    $('.controller').bind('click', function(){
+        currentPosition = $(this).prevAll().length;
+        
+        $('#slideInner').animate({
+            'marginLeft' : slideWidth*(-currentPosition)
+        });
+        
+        // toggle class is more better way.  
+        $(this).siblings().css({color: '#CCCCCC'});
+        $(this).css({color: '#333333'});
+    });
 });
 </script>
-
 <!--] common scripts --> 
  
 <!--Analytics [--> 
