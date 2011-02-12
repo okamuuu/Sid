@@ -1,3 +1,3 @@
-package Sid::Plugin::Parser;
+package Sid::Plugin::Renderer;
 1;
 
