@@ -4,16 +4,16 @@ use warnings;
 use parent 'Sid::Plugin::Renderer';
 use Carp ();
 use Text::Xslate ();
+use Smart::Args;
+use MouseX::Types::Path::Class;
 
 sub new {
-    my ( $class, %args ) = @_;
-
-    my $template_file = $args{template_file}
-      or Carp::croak("missing mandatory parameter 'template_file'...");
+    args my $class, my $template_file =>
+      { isa => 'Path::Class::File', required => 1, coerce => 1 };
 
     return bless {
         tx => Text::Xslate->new(
-            syntax => 'Kolon',
+            syntax   => 'Kolon',
             function => {
                 html_unescape => sub {
                     Text::Xslate::mark_raw(shift);

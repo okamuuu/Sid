@@ -4,22 +4,14 @@ use warnings;
 use Sid::Model::Doc;
 use Sid::Model::Category;
 use Sid::Model::Article;
+use Smart::Args qw/args/;
 use HTML::TreeBuilder::XPath;
 use Path::Class ();
 use Carp ();
 use Cwd ();
 
-my ($XPATH, $PARSER);
-
-sub to_path_class_file {
-    my ($class, @path ) = @_;
-    return Path::Class::File->new( Cwd::cwd(), @path );
-}
-
-sub to_path_class_dir {
-    my ($class, @path ) = @_;
-    return Path::Class::Dir->new( Cwd::cwd(), @path );
-}
+my $XPATH;
+my $PARSER;
 
 sub set_parser {
     my ($class, $parser) = @_;
@@ -27,27 +19,20 @@ sub set_parser {
 }
 
 sub create_doc {
-    my ($class, %args ) = @_;
-
-    my $name    = $args{name}    or Carp::croak();
-    my $author  = $args{author}  or Carp::croak();
-    my $version = $args{version} or Carp::croak();
-    my $doc_dir = $args{doc_dir} or Carp::croak();
-    my $readme  = $args{readme}  or Carp::croak();
-
-    Carp::croak unless $PARSER;
+    args my $class , my $config => { isa => 'Sid::Config', requied => 1 };
 
     my $categories_ref = [
-        $class->_create_readme_as_category($readme),
+        $class->_create_readme_as_category($config->readme_file),
         map    { $class->_create_category($_) }
           sort { $a cmp $b }
-          grep { $_->is_dir and $_->basename =~ m/^\d+\-/ } $doc_dir->children
+          grep { $_->is_dir and $_->basename =~ m/^\d+\-/ } $config->doc_dir->children
     ];
 
     return Sid::Model::Doc->new(
-        name           => $name,
-        author         => $author,
-        version        => $version,
+        name           => $config->name,
+        author         => $config->author,
+        version        => $config->version,
+        description    => $config->descrpition,
         categories_ref => $categories_ref,
     );
 
