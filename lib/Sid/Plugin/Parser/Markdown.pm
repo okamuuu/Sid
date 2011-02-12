@@ -1,6 +1,7 @@
 package Sid::Plugin::Parser::Markdown;
 use strict;
 use warnings;
+use parent 'Sid::Plugin::Parser';
 use Text::Markdown;
 
 sub new {
