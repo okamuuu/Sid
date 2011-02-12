@@ -1,6 +1,7 @@
-package Sid::Plugin::View::TX;
+package Sid::Plugin::Renderer::TX;
 use strict;
 use warnings;
+use parent 'Sid::Plugin::Renderer';
 use Carp ();
 use Text::Xslate ();
 
