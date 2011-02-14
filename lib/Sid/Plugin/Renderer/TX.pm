@@ -16,7 +16,7 @@ sub new {
             syntax   => 'Kolon',
             function => {
                 html_unescape => sub {
-                    Text::Xslate::mark_raw(shift);
+                    Text::Xslate::Util::mark_raw(shift);
                 },
             },
         ),
