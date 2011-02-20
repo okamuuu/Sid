@@ -11,9 +11,6 @@ use Class::Accessor::Lite 0.05 ( ro => [qw/config/] );
 
 sub new {
     args my $class, my $config => { isa => 'Sid::Config', required => 1 };
-
-    Sid::Logic->set_parser($config->parser);
-
     return bless { config => $config }, $class;
 }
 

@@ -6,55 +6,60 @@ use Sid::Model::Category;
 use Sid::Model::Article;
 use Smart::Args qw/args/;
 use HTML::TreeBuilder::XPath;
-use Path::Class ();
-use Carp ();
-use Cwd ();
+use Class::Accessor::Lite 0.05 (
+    new => 1,
+    ro  => [qw/config/],
+    rw  => [qw/_xpath/],
+);
 
-my $XPATH;
-my $PARSER;
+sub parse2html {
+    my $self = shift;
+    return Text::Markdown::markdown(@_);
+}
 
-sub set_parser {
-    my ($class, $parser) = @_;
-    $PARSER = $parser;
+sub xpath {
+    my $self = shift;
+    return $self->_xpath if $self->_xpath;
+    return $self->_xpath( HTML::TreeBuilder::XPath->new );
 }
 
 sub create_doc {
-    args my $class , my $config => { isa => 'Sid::Config', requied => 1 };
+    my $self = shift;
 
     my $categories_ref = [
-        $class->_create_readme_as_category($config->readme_file),
-        map    { $class->_create_category($_) }
+        $self->_create_readme_as_category($self->config->readme_file),
+        map    { $self->_create_category($_) }
           sort { $a cmp $b }
-          grep { $_->is_dir and $_->basename =~ m/^\d+\-/ } $config->doc_dir->children
+          grep { $_->is_dir and $_->basename =~ m/^\d+\-/ } $self->config->doc_dir->children
     ];
 
     return Sid::Model::Doc->new(
-        name           => $config->name,
-        author         => $config->author,
-        version        => $config->version,
-        description    => $config->descrpition,
+        name           => $self->config->name,
+        author         => $self->config->author,
+        version        => $self->config->version,
+        description    => $self->config->descrpition,
         categories_ref => $categories_ref,
     );
 
 }
 
 sub _create_readme_as_category {
-    my ( $class, $file ) = @_;
+    my ( $self, $file ) = @_;
 
     return Sid::Model::Category->new(
         id           => 'readme',
         name         => 'README',
-        articles_ref => [ $class->_create_article($file) ],
+        articles_ref => [ $self->_create_article($file) ],
     );
 }
 
 sub _create_category {
-    my ( $class, $dir ) = @_;
+    my ( $self, $dir ) = @_;
 
     $dir->basename =~ m/^(\d+)\-(.*)/ or return;
     my ( $id, $name ) = ($1, $2);
 
-    my $articles_ref = [ map { $class->_create_article($_) }
+    my $articles_ref = [ map { $self->_create_article($_) }
       sort { $a cmp $b }
       grep { not $_->is_dir and $_->basename =~ m/^\d+\-/ } $dir->children ];
 
@@ -66,7 +71,7 @@ sub _create_category {
 }
 
 sub _create_article {
-    my ( $class, $file ) = @_; 
+    my ( $self, $file ) = @_; 
 
     my $id;
 
@@ -81,17 +86,15 @@ sub _create_article {
         return;
     }
 
-    my $xhtml = $PARSER->parse( scalar $file->slurp );
+    my $xhtml = $self->parse2html( scalar $file->slurp );
+    $self->xpath->parse($xhtml);
 
-    $XPATH = HTML::TreeBuilder::XPath->new unless $XPATH;
-    $XPATH->parse($xhtml);
-
-    my $heading = $XPATH->findnodes('//h1')->get_node->as_text;
+    my $heading = $self->xpath->findnodes('//h1')->get_node->as_text;
 
     my %seen;
     my $keywords_ref =
       [ grep { not $seen{$_}++ }
-          map { $_->as_text } $XPATH->findnodes('//em')->get_nodelist ];
+          map { $_->as_text } $self->xpath->findnodes('//em')->get_nodelist ];
 
     return Sid::Model::Article->new(
         id           => $id,
