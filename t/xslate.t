@@ -19,27 +19,5 @@ subtest 'argument is string' => sub {
     is $html, 'Hello, Mike!';
 };
 
-subtest 'parse markdown' => sub {
-    my $xslate = Sid::Xslate->new(
-        template_file => Path::Class::File->new(
-            't/samples/Doc-Markdown-Syntax/template/markdown.tx')
-    );
-
-    isa_ok( $xslate, 'Sid::Xslate' );
-
-    my $text = <<EOT;
-test
-====
-EOT
-    
-    my $html = $xslate->render(text=>$text);
-    chomp $html;
-    chomp $html;
-    is $html, '<h1>test</h1>';
-};
-
-
-
-
 done_testing();
 

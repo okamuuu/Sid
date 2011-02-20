@@ -5,17 +5,13 @@ use Sid::Model::Doc;
 use Sid::Model::Category;
 use Sid::Model::Article;
 use Smart::Args qw/args/;
+use Text::Markdown ();
 use HTML::TreeBuilder::XPath;
 use Class::Accessor::Lite 0.05 (
     new => 1,
     ro  => [qw/config/],
     rw  => [qw/_xpath/],
 );
-
-sub parse2html {
-    my $self = shift;
-    return Text::Markdown::markdown(@_);
-}
 
 sub xpath {
     my $self = shift;
@@ -86,7 +82,7 @@ sub _create_article {
         return;
     }
 
-    my $xhtml = $self->parse2html( scalar $file->slurp );
+    my $xhtml = Text::Markdown::markdown( scalar $file->slurp );
     $self->xpath->parse($xhtml);
 
     my $heading = $self->xpath->findnodes('//h1')->get_node->as_text;

@@ -3,7 +3,9 @@ use strict;
 use warnings;
 use Sid::Api::Msg;
 use Sid::Api::DebugMsg;
-use Class::Accessor::Lite 0.05 ( ro => [qw/log_path/],rw => [qw/error_msg status_msg debug_msg/] );
+use Class::Accessor::Lite 0.05 ( 
+    ro => [qw/log_path/],
+    rw => [qw/error_msg status_msg debug_msg/] );
 
 sub new {
     my ($class, %args) = @_;
@@ -44,6 +46,9 @@ sub DESTROY {
         $fh->print($_) for map { "$_\n" } $self->debug_msg->get_msgs();
         $fh->print("\n");
         $fh->close;
+    }
+    elsif ( $self->debug_msg->has_msgs ) {
+        warn $_ for $self->debug_msg->get_msgs(); 
     }
     else {
         return;

@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use t::Utils;
 use Test::More;
 use Test::Exception;
 use Path::Class::File;
@@ -53,22 +54,20 @@ subtest 'Base' => sub {
     like $lines[1], qr/\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\] debug \( [\.\d]+ sec \)/;
 };
 
-=pod
+subtest 'Api' => sub {
+    my $config = t::Utils->config;
 
-subtest 'generate html' => sub {
+    subtest 'create_doc' => sub {
+        my $doc = Sid::Api->new(config=>$config)->create_doc;
+        isa_ok( $doc, "Sid::Model::Doc" );
+    };
 
-    my $api = Sid::Api->new(
-        name          => 'Markdown-Syntax',
-        readme        => 't/samples/Doc-Markdown-Syntax/Readme.md',
-        doc_dir       => 't/samples/Doc-Markdown-Syntax/doc',
-        html_dir      => 't/samples/Doc-Markdown-Syntax/html',
-        template_file => 't/samples/Doc-Markdown-Syntax/template/layout.tx',
-    );
-
-    $api->gen_html;
-    pass();
+    subtest 'write_doc' => sub {
+        Sid::Api->new(config=>$config)->write_doc;
+        pass();
+    };
 };
-=cut
+
 
 done_testing();
 

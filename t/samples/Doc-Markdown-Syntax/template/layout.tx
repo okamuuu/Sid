@@ -45,7 +45,7 @@
 : for $category.articles_ref() -> $article {
         <div class="slide">
         <article id="<: $article.id :>" class="shadowbox">
-            <: html_unescape($article.content) :> 
+            <: $article.content | html_unescape :> 
         </article>
         </div>
 : }
