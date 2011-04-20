@@ -11,8 +11,9 @@ you should just be able to do like this
 
     % git clone git@github.com:okamuuu/Sid.git
     % cd Sid
+    % export PERL5LIB=$PWD/lib:$PERL5LIB
     % cpanm --installdeps .   
-    % plackup -s HTTP::Server::Simple demo.psgi
+    % plackup demo.psgi
     % open -a 'Google Chrome' 'http://localhost:5000/index.html'
 
 DOCUMENTATION

@@ -2,6 +2,7 @@ use inc::Module::Install;
 name 'Sid';
 all_from 'lib/Sid.pm';
 
+requires 'Plack';
 requires 'opts';
 requires 'Cwd';
 requires 'Carp';
