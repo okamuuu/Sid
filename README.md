@@ -9,7 +9,7 @@ INSTALLATION & DEMONSTRATION
 Sid installation is straightforward. If you know github and cpanm,
 you should just be able to do like this
 
-    % git clone git@github.com:okamuuu/Sid.git
+    % git clone https://github.com/okamuuu/Sid.git
     % cd Sid
     % export PERL5LIB=$PWD/lib:$PERL5LIB
     % cpanm --installdeps .   
